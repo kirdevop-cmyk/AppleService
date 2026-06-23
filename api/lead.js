@@ -10,9 +10,10 @@ export default async function handler(req, res) {
     return res.status(405).json({ ok: false, error: 'Method not allowed' });
   }
 
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  // chat_id: за замовчуванням значення нижче; за потреби перевизначається змінною оточення.
-  // УВАГА: замініть на особистий chat_id отримувача (див. README), якщо заявки не приходять.
+  // Значення за замовчуванням; за потреби перевизначаються змінними оточення на Vercel.
+  // БЕЗПЕКА: токен зашитий у код для простоти запуску. Рекомендовано перенести його
+  // у змінну оточення TELEGRAM_BOT_TOKEN і перевипустити токен через @BotFather.
+  const token = process.env.TELEGRAM_BOT_TOKEN || '8698912799:AAHxLlzemfkCQrhGZ3R4J0W76oD8J4ohIio';
   const chatId = process.env.TELEGRAM_CHAT_ID || '8213847123';
   if (!token) {
     return res.status(500).json({ ok: false, error: 'TELEGRAM_BOT_TOKEN is not configured' });
