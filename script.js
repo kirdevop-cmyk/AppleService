@@ -127,15 +127,20 @@
     });
   }
 
-  /* Відправка форми (демо: без бекенду) */
+  /* Відправка форми → серверлес-функція /api/lead → Telegram */
   if (form) {
+    var submitBtn = form.querySelector('button[type="submit"]');
+    var note = form.querySelector('.lead-form__note');
+    var noteDefault = note ? note.textContent : '';
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var name = form.querySelector('input[name="name"]');
-      var phone = form.querySelector('input[name="phone"]');
+      var nameEl = form.querySelector('input[name="name"]');
+      var phoneEl = form.querySelector('input[name="phone"]');
+      var problemEl = form.querySelector('textarea[name="problem"]');
       var valid = true;
-      [name, phone].forEach(function (f) {
-        if (!f.value.trim() || (f === phone && f.value.replace(/\D/g, '').length < 11)) {
+      [nameEl, phoneEl].forEach(function (f) {
+        if (!f.value.trim() || (f === phoneEl && f.value.replace(/\D/g, '').length < 11)) {
           f.classList.add('invalid');
           valid = false;
         } else {
@@ -144,14 +149,36 @@
       });
       if (!valid) return;
 
-      // Тут можна підключити відправку на сервер / Telegram / CRM.
-      // Для лендінгу під Google Ads — крапка конверсії:
-      if (typeof gtag === 'function') {
-        gtag('event', 'generate_lead', { event_category: 'form', event_label: 'courier_request' });
-      }
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.dataset.label = submitBtn.textContent; submitBtn.textContent = 'Надсилаємо…'; }
+      if (note) { note.textContent = noteDefault; note.style.color = ''; }
 
-      form.hidden = true;
-      if (success) success.hidden = false;
+      fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: nameEl.value.trim(),
+          phone: phoneEl.value.trim(),
+          problem: problemEl ? problemEl.value.trim() : ''
+        })
+      }).then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (d) {
+          return r.ok && d.ok !== false;
+        });
+      }).then(function (ok) {
+        if (!ok) throw new Error('send failed');
+        // Точка конверсії для Google Ads
+        if (typeof gtag === 'function') {
+          gtag('event', 'generate_lead', { event_category: 'form', event_label: 'courier_request' });
+        }
+        form.hidden = true;
+        if (success) success.hidden = false;
+      }).catch(function () {
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = submitBtn.dataset.label || 'Залишити заявку'; }
+        if (note) {
+          note.textContent = 'Не вдалося надіслати. Зателефонуйте: 073 666 18 36';
+          note.style.color = '#fb7185';
+        }
+      });
     });
   }
 })();
