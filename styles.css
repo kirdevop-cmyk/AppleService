@@ -145,6 +145,12 @@ h1,h2,h3,h4{font-family:'Unbounded',sans-serif;line-height:1.12;font-weight:700;
 .section__head h2{font-size:clamp(26px,3.4vw,42px);font-weight:800;margin-bottom:14px}
 .section__head p{color:var(--muted);font-size:17px}
 
+/* ===== Бренди ===== */
+.brands{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;margin:-22px auto 40px;max-width:760px}
+.brands__label{color:var(--muted);font-weight:600;font-size:14px}
+.brand-chip{font-family:'Unbounded',sans-serif;font-weight:500;font-size:15px;color:var(--text);background:var(--surface);border:1px solid var(--line);padding:8px 18px;border-radius:999px;transition:transform .25s,border-color .25s,color .25s}
+.brand-chip:hover{transform:translateY(-3px);border-color:var(--accent);color:var(--accent)}
+
 /* ===== Картки послуг ===== */
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:30px 26px;transition:transform .3s,border-color .3s,background .3s;position:relative;overflow:hidden}
