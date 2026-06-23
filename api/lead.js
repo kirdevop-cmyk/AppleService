@@ -13,7 +13,7 @@ export default async function handler(req, res) {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   // chat_id: за замовчуванням значення нижче; за потреби перевизначається змінною оточення.
   // УВАГА: замініть на особистий chat_id отримувача (див. README), якщо заявки не приходять.
-  const chatId = process.env.TELEGRAM_CHAT_ID || '8698912799';
+  const chatId = process.env.TELEGRAM_CHAT_ID || '8213847123';
   if (!token) {
     return res.status(500).json({ ok: false, error: 'TELEGRAM_BOT_TOKEN is not configured' });
   }
