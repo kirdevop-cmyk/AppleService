@@ -425,6 +425,42 @@
   <span class="fab__pulse"></span>
 </a>
 
+<!-- AI-консультант -->
+<button class="chat-fab" id="chatFab" aria-label="Чат з AI-консультантом">
+  <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M4 4h16a1 1 0 011 1v12a1 1 0 01-1 1H9l-4 3v-3H4a1 1 0 01-1-1V5a1 1 0 011-1z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/><circle cx="9" cy="11" r="1" fill="currentColor"/><circle cx="12" cy="11" r="1" fill="currentColor"/><circle cx="15" cy="11" r="1" fill="currentColor"/></svg>
+  <span class="chat-fab__badge">AI</span>
+  <span class="chat-fab__pulse"></span>
+</button>
+
+<div class="chat" id="chatPanel" aria-hidden="true">
+  <div class="chat__head">
+    <div class="chat__who">
+      <span class="chat__avatar">A</span>
+      <span class="chat__meta">
+        <b>Олександра</b>
+        <i><span class="chat__dot"></span> AI-консультант · онлайн</i>
+      </span>
+    </div>
+    <button class="chat__close" id="chatClose" aria-label="Закрити чат">×</button>
+  </div>
+  <div class="chat__body" id="chatBody">
+    <div class="chat__msg chat__msg--bot">
+      Вітаю! 👋 Я Олександра, консультант Apple Service. Що сталося з вашим телефоном? Підкажу ціну, строки та оформлю безкоштовний виїзд кур'єра по Харкову.
+    </div>
+  </div>
+  <div class="chat__quick" id="chatQuick">
+    <button type="button">Розбитий екран iPhone</button>
+    <button type="button">Не тримає зарядку</button>
+    <button type="button">Скільки коштує діагностика?</button>
+  </div>
+  <form class="chat__form" id="chatForm">
+    <input type="text" id="chatInput" placeholder="Напишіть повідомлення…" autocomplete="off" maxlength="500" />
+    <button type="submit" aria-label="Надіслати">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M3 11l18-8-8 18-2-7-8-3z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/></svg>
+    </button>
+  </form>
+</div>
+
 <!-- Модальне вікно заявки -->
 <div class="modal" id="modal" aria-hidden="true">
   <div class="modal__overlay" data-close-modal></div>

@@ -111,6 +111,104 @@
     if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
   });
 
+  /* AI-консультант (Claude) */
+  (function () {
+    var fab = document.getElementById('chatFab');
+    var panel = document.getElementById('chatPanel');
+    var closeBtn = document.getElementById('chatClose');
+    var bodyEl = document.getElementById('chatBody');
+    var formEl = document.getElementById('chatForm');
+    var inputEl = document.getElementById('chatInput');
+    var quickEl = document.getElementById('chatQuick');
+    if (!fab || !panel || !formEl) return;
+
+    var sendBtn = formEl.querySelector('button[type="submit"]');
+    var history = []; // {role, content} — лише текст
+    var busy = false;
+
+    function openChat() {
+      panel.classList.add('open');
+      panel.setAttribute('aria-hidden', 'false');
+      fab.classList.add('hide');
+      setTimeout(function () { inputEl.focus(); }, 100);
+    }
+    function closeChat() {
+      panel.classList.remove('open');
+      panel.setAttribute('aria-hidden', 'true');
+      fab.classList.remove('hide');
+    }
+    fab.addEventListener('click', openChat);
+    if (closeBtn) closeBtn.addEventListener('click', closeChat);
+
+    function scrollDown() { bodyEl.scrollTop = bodyEl.scrollHeight; }
+
+    function addMessage(role, text) {
+      var el = document.createElement('div');
+      el.className = 'chat__msg chat__msg--' + (role === 'user' ? 'user' : 'bot');
+      el.textContent = text;
+      bodyEl.appendChild(el);
+      scrollDown();
+      return el;
+    }
+
+    function showTyping() {
+      var el = document.createElement('div');
+      el.className = 'chat__msg chat__msg--bot chat__msg--typing';
+      el.innerHTML = '<span></span><span></span><span></span>';
+      bodyEl.appendChild(el);
+      scrollDown();
+      return el;
+    }
+
+    function send(text) {
+      if (busy || !text.trim()) return;
+      busy = true;
+      if (sendBtn) sendBtn.disabled = true;
+      if (quickEl) quickEl.classList.add('hide');
+
+      addMessage('user', text);
+      history.push({ role: 'user', content: text });
+      inputEl.value = '';
+      var typing = showTyping();
+
+      fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: history })
+      }).then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (d) {
+          return { ok: r.ok, data: d };
+        });
+      }).then(function (res) {
+        typing.remove();
+        if (!res.ok || !res.data || !res.data.reply) throw new Error('chat failed');
+        addMessage('assistant', res.data.reply);
+        history.push({ role: 'assistant', content: res.data.reply });
+        if (res.data.leadSaved && typeof gtag === 'function') {
+          gtag('event', 'generate_lead', { event_category: 'chat', event_label: 'ai_assistant' });
+        }
+      }).catch(function () {
+        typing.remove();
+        addMessage('assistant', 'Вибачте, стався збій звʼязку. Зателефонуйте, будь ласка: 073 666 18 36 — ми на звʼязку щодня 09:00–21:00.');
+      }).then(function () {
+        busy = false;
+        if (sendBtn) sendBtn.disabled = false;
+        inputEl.focus();
+      });
+    }
+
+    formEl.addEventListener('submit', function (e) {
+      e.preventDefault();
+      send(inputEl.value);
+    });
+
+    if (quickEl) {
+      quickEl.addEventListener('click', function (e) {
+        if (e.target.tagName === 'BUTTON') send(e.target.textContent);
+      });
+    }
+  })();
+
   /* Маска телефону */
   var phoneInput = form ? form.querySelector('input[name="phone"]') : null;
   if (phoneInput) {
