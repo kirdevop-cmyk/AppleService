@@ -125,6 +125,17 @@
     var sendBtn = formEl.querySelector('button[type="submit"]');
     var history = []; // {role, content} — лише текст
     var busy = false;
+    var DEBUG = /[?&]debug=1/.test(location.search);
+
+    function failMsg(data) {
+      var base = 'Вибачте, стався збій звʼязку. Зателефонуйте, будь ласка: 073 666 18 36 — ми на звʼязку щодня 09:00–21:00.';
+      if (DEBUG && data) {
+        var d = data.error || '';
+        if (data.detail) d += ' / ' + (typeof data.detail === 'string' ? data.detail : JSON.stringify(data.detail));
+        if (d) base += '\n\n[debug: ' + d + ']';
+      }
+      return base;
+    }
 
     function openChat() {
       panel.classList.add('open');
@@ -181,15 +192,18 @@
         });
       }).then(function (res) {
         typing.remove();
-        if (!res.ok || !res.data || !res.data.reply) throw new Error('chat failed');
-        addMessage('assistant', res.data.reply);
-        history.push({ role: 'assistant', content: res.data.reply });
-        if (res.data.leadSaved && typeof gtag === 'function') {
-          gtag('event', 'generate_lead', { event_category: 'chat', event_label: 'ai_assistant' });
+        if (res.ok && res.data && res.data.reply) {
+          addMessage('assistant', res.data.reply);
+          history.push({ role: 'assistant', content: res.data.reply });
+          if (res.data.leadSaved && typeof gtag === 'function') {
+            gtag('event', 'generate_lead', { event_category: 'chat', event_label: 'ai_assistant' });
+          }
+          return;
         }
+        addMessage('assistant', failMsg(res.data));
       }).catch(function () {
         typing.remove();
-        addMessage('assistant', 'Вибачте, стався збій звʼязку. Зателефонуйте, будь ласка: 073 666 18 36 — ми на звʼязку щодня 09:00–21:00.');
+        addMessage('assistant', failMsg(null));
       }).then(function () {
         busy = false;
         if (sendBtn) sendBtn.disabled = false;
