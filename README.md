@@ -1,89 +1,67 @@
 # MobiDoctor — виїзний ремонт смартфонів у Харкові
 
-Багатосторінковий сайт (статичний, Vercel) для майстерні виїзного ремонту смартфонів. Бренд **MobiDoctor** (без чужих товарних знаків — під вимоги Google Ads). Внутрішні сторінки генеруються зі спільного шаблону: `node scripts/build-pages.mjs`. Головна (`index.html`) ведеться вручну. Чисті URL — через `vercel.json` (`cleanUrls`).
-
-## Стара версія (нижче) — лендінг
-
-Односторінковий лендінг для сервісного центру з ремонту смартфонів у Харкові (iPhone, Samsung, Xiaomi, Poco та інші) з виїзним обслуговуванням кур'єром. Створений під рекламу Google Ads.
-
-## Особливості
-
-- 🎨 Сучасний дизайн у стилі Apple: темна тема, градієнти, glassmorphism
-- ✨ Анімації: поява блоків при прокрутці, анімовані лічильники, бігучий рядок, плаваюча картинка-телефон, пульсуючі елементи, прогрес-бар прокрутки
-- 📱 Повна адаптивність (десктоп / планшет / мобільний), мобільне меню
-- 🚚 Акцент на УТП: безкоштовний виїзд кур'єра, гарантія, власний склад запчастин
-- 🔍 SEO: meta-теги, Open Graph, Twitter Card, структуровані дані `LocalBusiness` і `FAQPage` (schema.org), розгорнутий SEO-текст, `robots.txt`, `sitemap.xml`
-- 📞 Телефон: **073 666 18 36**, форма заявки з валідацією та маскою телефону, точка конверсії для Google Ads (`gtag`)
-- ♿ Підтримка `prefers-reduced-motion`, доступне модальне вікно
+Сайт на **Next.js 14 (App Router) + TypeScript + Tailwind**, повністю статична генерація (SSG) на Vercel. Бренд **MobiDoctor** — без чужих товарних знаків, під вимоги Google Ads.
 
 ## Структура
 
-| Файл | Призначення |
-|------|-------------|
-| `index.html` | Розмітка та контент сторінки |
-| `styles.css` | Стилі, теми, анімації, адаптив |
-| `script.js` | Інтерактив: меню, reveal-анімації, лічильники, модалка, форма |
-| `robots.txt`, `sitemap.xml` | SEO |
-
-## Запуск
-
-Це статичний сайт — достатньо відкрити `index.html` у браузері, або підняти простий сервер:
-
-```bash
-python3 -m http.server 8080
-# відкрити http://localhost:8080
+```
+app/                         # маршрути (App Router)
+  page.tsx                   # головна
+  remont-iphone-kharkiv/     # хаб бренду + [model] (динамічні сторінки моделей)
+  remont-samsung-kharkiv/    # —//—
+  remont-xiaomi-kharkiv/     # —//—
+  remont-realme-oneplus/     # інші бренди
+  poslugy/[service]/         # сторінки послуг
+  vyizd-po-rayonah/[district]/  # геосторінки по районах
+  tsiny, garantiya, pro-nas, kontakty, *-legal
+  api/lead, api/chat         # прийом заявки / AI-консультант
+  sitemap.ts, robots.ts      # генеруються з даних
+components/                  # layout, blocks, forms, seo (JsonLd)
+data/                        # site, brands, models, services, districts, faq, reviews, knowledge
+lib/                         # seo (метадані), schema (JSON-LD), slug
 ```
 
-## AI-консультант (Claude)
+## Контент — у `data/*.ts`
 
-На сайті є онлайн-чат із AI-менеджером «Олександра» на базі **Claude** (модель
-`claude-opus-4-8`). Він консультує відвідувачів, «прогріває» та приймає заявки:
-коли клієнт залишає ім'я й телефон, асистент через інструмент `save_lead`
-автоматично пересилає заявку в Telegram (як і форма).
+Сторінки моделей/районів/послуг будуються з типізованих даних. **Щоб додати модель/район — додайте запис у `data/models.ts` / `data/districts.ts`**; сторінка, sitemap і schema згенеруються автоматично. Кожна модель має унікальний `intro` та `commonIssues` (без дублікатів).
 
-- Бекенд: серверлес-функція `api/chat.js` — звертається до Anthropic Messages API
-  через `fetch` (ключ лише у змінній оточення, не в коді).
-- **База знань:** `lib/knowledge.js` — послуги, ціни, FAQ, скрипти прогріву та
-  відпрацювання заперечень. Підставляється в системний промпт. **Щоб змінити, як
-  спілкується асистент — редагуйте цей файл** (не потрібно чіпати логіку).
-- Фронтенд: плаваюча кнопка «AI» зліва внизу + чат-вікно (`index.html` / `styles.css` / `script.js`).
+## Команди
 
-### Налаштування (Vercel → Settings → Environment Variables)
+```bash
+npm install
+npm run dev      # локальна розробка
+npm run build    # продакшн-білд (SSG)
+```
 
-| Змінна | Значення |
-|--------|----------|
-| `ANTHROPIC_API_KEY` | ключ Anthropic API (з console.anthropic.com) |
+## Змінні оточення (Vercel → Settings → Environment Variables)
 
-Telegram-змінні (`TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`) ті самі, що для форми.
-Після додавання ключа — зробіть **Redeploy**. Без `ANTHROPIC_API_KEY` чат
-відповідатиме повідомленням про збій зв'язку.
+| Змінна | Призначення |
+|--------|-------------|
+| `NEXT_PUBLIC_SITE_URL` | продакшн-домен (для canonical/OG/sitemap) |
+| `NEXT_PUBLIC_GTM_ID` | Google Tag Manager (GA4 + події) |
+| `ANTHROPIC_API_KEY` | AI-консультант (Claude) |
+| `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` | заявки в Telegram |
+| `RESEND_API_KEY`, `LEAD_EMAIL_TO` | дубль заявки на email (опц.) |
 
-## Заявки в Telegram
+Див. `.env.example`.
 
-Форма «Викликати кур'єра» надсилає заявку на серверлес-функцію `api/lead.js`
-(Vercel), яка пересилає її в Telegram через Bot API. Токен у код **не**
-зашитий — він читається зі змінних оточення.
+## SEO
 
-### Налаштування (Vercel → Settings → Environment Variables)
+- Унікальні `title`/`description`/H1 + `canonical` на кожній сторінці (`generateMetadata`).
+- JSON-LD: `LocalBusiness` (глобально), `Service`, `Service+Offer` (моделі), `FAQPage`, `BreadcrumbList`.
+- `sitemap.xml` і `robots.txt` генеруються з даних; `/api` закрито.
+- Внутрішня перелінковка: головна → бренди → моделі → послуги → райони.
 
-| Змінна | Значення |
-|--------|----------|
-| `TELEGRAM_BOT_TOKEN` | токен бота від [@BotFather](https://t.me/BotFather) |
-| `TELEGRAM_CHAT_ID` | id чату/групи, куди надсилати заявки |
+## Лід-флоу та аналітика
 
-Після додавання змінних — зробіть **Redeploy**.
+- Форма (Ім'я + Телефон, honeypot, чекбокс згоди) → `POST /api/lead` → Telegram (+ email).
+- AI-чат «Олександра» (Claude) консультує й приймає заявки через інструмент `save_lead`.
+- Подія `generate_lead` пушиться в `dataLayer` (GTM/GA4).
 
-### Як дізнатися `TELEGRAM_CHAT_ID`
+## Перед публікацією
 
-1. Напишіть будь-яке повідомлення своєму боту (або додайте бота в групу й напишіть там).
-2. Відкрийте `https://api.telegram.org/bot<ВАШ_ТОКЕН>/getUpdates`
-3. Знайдіть `"chat":{"id": ...}` — це і є `TELEGRAM_CHAT_ID` (для груп — від'ємне число).
-
-> ⚠️ **Безпека:** якщо токен бота десь засвітився у відкритому вигляді — перевипустіть його через @BotFather і впишіть новий лише у змінні оточення Vercel. Ніколи не комітьте токен у репозиторій.
-
-## Що налаштувати перед публікацією
-
-1. **Telegram** — додати `TELEGRAM_BOT_TOKEN` і `TELEGRAM_CHAT_ID` (див. вище).
-2. **Домен** — замінити `https://apple-service.kh.ua/` у `index.html`, `sitemap.xml`, `robots.txt` на реальний.
-3. **og-image.jpg** — додати зображення для соцмереж (1200×630).
-4. **Google Ads / Analytics** — додати теги відстеження; подія конверсії `generate_lead` вже викликається при успішній відправці форми.
+1. Вписати реальні **реквізити ФОП** у `data/site.ts` (`legalName`, `edrpou`).
+2. Підключити **власний домен** + 301 зі старих URL; задати `NEXT_PUBLIC_SITE_URL`.
+3. Додати `NEXT_PUBLIC_GTM_ID` (GA4 ціль `generate_lead`), подати sitemap у Search Console.
+4. Замінити порожній `data/reviews.ts` реальними відгуками (Google Business Profile).
+5. Додати `public/og-image.jpg` (1200×630) і реальні фото.
