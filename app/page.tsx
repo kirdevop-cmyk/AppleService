@@ -17,6 +17,7 @@ import {
   PageActions,
 } from '@/components/blocks/Blocks';
 import { HeroBackdrop } from '@/components/ui/HeroBackdrop';
+import { ChatDemo } from '@/components/ui/ChatDemo';
 
 export const metadata: Metadata = buildMetadata({
   title: 'Виїзний ремонт смартфонів у Харкові — кур’єр забере телефон | MobiDoctor',
@@ -75,10 +76,14 @@ export default function Home() {
       </Section>
 
       <Section alt>
-        <TrustBadges />
+        <ChatDemo />
       </Section>
 
       <Section>
+        <TrustBadges />
+      </Section>
+
+      <Section alt>
         <Eyebrow>Орієнтовні ціни</Eyebrow>
         <h2 className="mb-6 text-3xl font-medium tracking-tight">Скільки коштує ремонт</h2>
         <PriceTable />
@@ -87,7 +92,7 @@ export default function Home() {
         </p>
       </Section>
 
-      <Section alt>
+      <Section>
         <div className="mx-auto max-w-3xl">
           <Eyebrow>Часті питання</Eyebrow>
           <h2 className="mb-6 text-3xl font-medium tracking-tight">Питання та відповіді</h2>
@@ -95,7 +100,7 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section>
+      <Section alt>
         <div className="grid gap-10 lg:grid-cols-2">
           <div>
             <Eyebrow>Контакти</Eyebrow>

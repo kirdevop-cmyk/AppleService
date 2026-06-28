@@ -15,7 +15,9 @@ export function SiteWidgets() {
 
   useEffect(() => {
     const open = () => setModal(true);
+    const openChat = () => setChat(true);
     window.addEventListener('open-lead-modal', open);
+    window.addEventListener('open-chat', openChat);
     const esc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         setModal(false);
@@ -24,6 +26,7 @@ export function SiteWidgets() {
     window.addEventListener('keydown', esc);
     return () => {
       window.removeEventListener('open-lead-modal', open);
+      window.removeEventListener('open-chat', openChat);
       window.removeEventListener('keydown', esc);
     };
   }, []);
