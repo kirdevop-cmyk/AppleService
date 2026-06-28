@@ -6,6 +6,7 @@ import { site } from '@/data/site';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { SiteWidgets } from '@/components/forms/SiteWidgets';
+import { RevealController } from '@/components/ui/RevealController';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { localBusinessSchema } from '@/lib/schema';
 
@@ -49,6 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="pb-16 sm:pb-0">{children}</main>
         <Footer />
         <SiteWidgets />
+        <RevealController />
       </body>
     </html>
   );

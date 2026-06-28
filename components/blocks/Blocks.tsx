@@ -15,7 +15,7 @@ export function Section({
 }) {
   return (
     <section className={`${alt ? 'bg-charcoal/40' : ''} py-14 ${className}`}>
-      <div className="container-x">{children}</div>
+      <div className="container-x reveal">{children}</div>
     </section>
   );
 }

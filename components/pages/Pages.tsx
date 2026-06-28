@@ -35,7 +35,7 @@ export function BrandHubView({ brandSlug }: { brandSlug: BrandSlug }) {
       <section className="pt-16">
         <div className="container-x py-12">
           <Breadcrumbs items={[{ name: 'Головна', href: '/' }, { name: `Ремонт ${brand.name}` }]} />
-          <h1 className="mb-4 max-w-3xl text-3xl font-medium leading-tight tracking-tight sm:text-4xl">
+          <h1 className="animate-fade-up mb-4 max-w-3xl text-3xl font-medium leading-tight tracking-tight sm:text-4xl">
             Ремонт {brand.name} у Харкові з виїздом кур’єра
           </h1>
           <div className="mb-7"><PageActions /></div>
@@ -113,7 +113,7 @@ export function ModelView({ brandSlug, modelSlug }: { brandSlug: BrandSlug; mode
       <section className="pt-16">
         <div className="container-x py-12">
           <Breadcrumbs items={[{ name: 'Головна', href: '/' }, { name: `Ремонт ${brand.name}`, href: brand.hubPath }, { name: model.name }]} />
-          <h1 className="mb-4 max-w-3xl text-3xl font-medium leading-tight tracking-tight sm:text-4xl">
+          <h1 className="animate-fade-up mb-4 max-w-3xl text-3xl font-medium leading-tight tracking-tight sm:text-4xl">
             Ремонт {model.name} у Харкові з виїздом кур’єра
           </h1>
           <p className="mb-7 max-w-2xl text-lg text-ash">{model.intro}</p>
@@ -186,7 +186,7 @@ export function ServiceView({ slug }: { slug: string }) {
       <section className="pt-16">
         <div className="container-x py-12">
           <Breadcrumbs items={[{ name: 'Головна', href: '/' }, { name: 'Послуги', href: '/poslugy' }, { name: service.name }]} />
-          <h1 className="mb-4 max-w-3xl text-3xl font-medium leading-tight tracking-tight sm:text-4xl">
+          <h1 className="animate-fade-up mb-4 max-w-3xl text-3xl font-medium leading-tight tracking-tight sm:text-4xl">
             {service.name} у Харкові з виїздом кур’єра
           </h1>
           <p className="mb-3 font-mono text-sm text-accent-3">
@@ -229,7 +229,7 @@ export function DistrictView({ slug }: { slug: string }) {
       <section className="pt-16">
         <div className="container-x py-12">
           <Breadcrumbs items={[{ name: 'Головна', href: '/' }, { name: 'Виїзд по районах', href: '/vyizd-po-rayonah' }, { name: d.name }]} />
-          <h1 className="mb-4 max-w-3xl text-3xl font-medium leading-tight tracking-tight sm:text-4xl">
+          <h1 className="animate-fade-up mb-4 max-w-3xl text-3xl font-medium leading-tight tracking-tight sm:text-4xl">
             Виїзний ремонт смартфонів {d.prepositional} (Харків)
           </h1>
           <p className="mb-7 max-w-2xl text-lg text-ash">{d.intro}</p>

@@ -30,21 +30,27 @@ export default function Home() {
       <JsonLd data={faqSchema(homeFaq)} />
 
       <section className="relative overflow-hidden pt-16">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(600px_400px_at_80%_15%,rgba(139,92,246,0.22),transparent_60%),radial-gradient(500px_400px_at_15%_60%,rgba(34,211,238,0.16),transparent_60%)]" />
+        <div className="pointer-events-none absolute inset-0">
+          <div className="animate-blob absolute right-[8%] top-[6%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(139,92,246,0.28),transparent_62%)] blur-2xl" />
+          <div className="animate-blob-2 absolute left-[6%] top-[42%] h-[380px] w-[380px] rounded-full bg-[radial-gradient(circle,rgba(34,211,238,0.20),transparent_62%)] blur-2xl" />
+          <div className="animate-blob absolute right-[34%] top-[58%] h-[300px] w-[300px] rounded-full bg-[radial-gradient(circle,rgba(251,113,133,0.14),transparent_62%)] blur-2xl [animation-delay:-7s]" />
+        </div>
         <div className="container-x relative grid items-center gap-10 py-12 lg:grid-cols-2">
           <div>
-            <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-accent-2/40 bg-accent-2/10 px-3.5 py-1.5 font-mono text-xs uppercase tracking-wider text-white">
+            <span className="animate-fade-up mb-6 inline-flex items-center gap-2 rounded-full border border-accent-2/40 bg-accent-2/10 px-3.5 py-1.5 font-mono text-xs uppercase tracking-wider text-white">
               iPhone · Samsung · Xiaomi · Poco · виїзд по Харкову
             </span>
-            <h1 className="mb-5 text-4xl font-medium leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
+            <h1 className="animate-fade-up mb-5 text-4xl font-medium leading-[1.05] tracking-tight [animation-delay:0.08s] sm:text-5xl lg:text-6xl">
               Виїзний ремонт <span className="grad-text">смартфонів</span> у Харкові
             </h1>
-            <p className="mb-8 max-w-xl text-lg text-ash">
+            <p className="animate-fade-up mb-8 max-w-xl text-lg text-ash [animation-delay:0.16s]">
               Не виходьте з дому. <strong className="text-white">Кур’єр забере ваш телефон, ми відремонтуємо й привеземо назад готовий.</strong>{' '}
               Гарантія до 12 місяців, безкоштовна діагностика, чесна ціна.
             </p>
-            <PageActions />
-            <ul className="mt-7 flex flex-wrap gap-x-6 gap-y-2 font-mono text-sm text-ash">
+            <div className="animate-fade-up [animation-delay:0.24s]">
+              <PageActions />
+            </div>
+            <ul className="animate-fade-up mt-7 flex flex-wrap gap-x-6 gap-y-2 font-mono text-sm text-ash [animation-delay:0.32s]">
               <li>🚚 Виїзд по Харкову — безкоштовно</li>
               <li>🛡 Гарантія до 12 місяців</li>
               <li>⚡ Ремонт від 30 хвилин</li>
