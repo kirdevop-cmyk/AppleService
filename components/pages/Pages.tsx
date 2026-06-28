@@ -240,11 +240,14 @@ export function DistrictView({ slug }: { slug: string }) {
         </div>
       </section>
       <Section>
+        <div className="prose-x max-w-3xl" dangerouslySetInnerHTML={{ __html: d.body }} />
+      </Section>
+      <Section alt>
         <Eyebrow>Послуги {d.prepositional}</Eyebrow>
         <h2 className="mb-6 text-2xl font-medium tracking-tight">Що ремонтуємо</h2>
         <ServiceCards />
       </Section>
-      <Section alt>
+      <Section>
         <div className="mx-auto max-w-3xl">
           <h2 className="mb-6 text-2xl font-medium tracking-tight">Часті питання</h2>
           <Faq items={faq} />
