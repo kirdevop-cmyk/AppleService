@@ -16,6 +16,7 @@ import {
   Faq,
   PageActions,
 } from '@/components/blocks/Blocks';
+import { HeroBackdrop } from '@/components/ui/HeroBackdrop';
 
 export const metadata: Metadata = buildMetadata({
   title: 'Виїзний ремонт смартфонів у Харкові — кур’єр забере телефон | MobiDoctor',
@@ -30,11 +31,7 @@ export default function Home() {
       <JsonLd data={faqSchema(homeFaq)} />
 
       <section className="relative overflow-hidden pt-16">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="animate-blob absolute right-[8%] top-[6%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(139,92,246,0.28),transparent_62%)] blur-2xl" />
-          <div className="animate-blob-2 absolute left-[6%] top-[42%] h-[380px] w-[380px] rounded-full bg-[radial-gradient(circle,rgba(34,211,238,0.20),transparent_62%)] blur-2xl" />
-          <div className="animate-blob absolute right-[34%] top-[58%] h-[300px] w-[300px] rounded-full bg-[radial-gradient(circle,rgba(251,113,133,0.14),transparent_62%)] blur-2xl [animation-delay:-7s]" />
-        </div>
+        <HeroBackdrop />
         <div className="container-x relative grid items-center gap-10 py-12 lg:grid-cols-2">
           <div>
             <span className="animate-fade-up mb-6 inline-flex items-center gap-2 rounded-full border border-accent-2/40 bg-accent-2/10 px-3.5 py-1.5 font-mono text-xs uppercase tracking-wider text-white">
