@@ -101,7 +101,7 @@ export function PriceTable({ overrides }: { overrides?: Partial<Record<ServiceSl
       <div className="grid grid-cols-[2fr_1fr_1fr] items-center gap-2 border-t border-graphite px-6 py-4 text-[15px]">
         <span className="text-white">Діагностика та виїзд кур’єра</span>
         <span className="text-ash">—</span>
-        <span className="text-right text-green-400">безкоштовно</span>
+        <span className="text-right text-accent-3">безкоштовно</span>
       </div>
     </div>
   );

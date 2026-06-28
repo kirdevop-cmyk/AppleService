@@ -132,7 +132,7 @@ export function ChatDemo() {
             <div className="leading-tight">
               <b className="text-[15px] font-medium">Олександра</b>
               <div className="flex items-center gap-1.5 font-mono text-[11px] text-ash">
-                <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-green-400" />
+                <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-accent-3" />
                 AI-консультант · онлайн
               </div>
             </div>

@@ -59,7 +59,7 @@ export function LeadForm({ onDone, compact = false }: { onDone?: () => void; com
   if (state === 'ok') {
     return (
       <div className="text-center">
-        <div className="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-full bg-gradient-to-br from-green-400 to-cyan-400 text-2xl text-[#0c0c0b]">
+        <div className="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-full bg-grad text-2xl text-[#0c0c0b]">
           ✓
         </div>
         <h3 className="mb-2 text-2xl font-medium grad-text">Дякуємо!</h3>
