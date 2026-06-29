@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { CourierButton } from '@/components/ui/CourierButton';
 
 type Step = { role: 'user' | 'assistant'; text: string };
 type Msg = { role: 'user' | 'assistant'; text: string };
@@ -17,11 +16,7 @@ const SCRIPT: Step[] = [
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-function openChat() {
-  window.dispatchEvent(new Event('open-chat'));
-}
-
-export function ChatDemo() {
+export function ChatDemoCard() {
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
@@ -102,79 +97,56 @@ export function ChatDemo() {
   }, []);
 
   return (
-    <div className="grid items-center gap-10 lg:grid-cols-2">
-      <div>
-        <span className="eyebrow">Онлайн-консультант</span>
-        <h2 className="mb-5 text-3xl font-medium tracking-tight">
-          Напишіть — і одразу отримаєте <span className="grad-text">відповідь</span>
-        </h2>
-        <p className="mb-6 max-w-lg text-lg text-ash">
-          Олександра, наш AI-консультант, миттєво підкаже орієнтовну ціну й строки,
-          відповість на питання та оформить безкоштовний виїзд кур’єра по Харкову —
-          у будь-який час доби.
-        </p>
-        <ul className="mb-8 space-y-2.5 text-[15px] text-ash">
-          <li className="flex items-center gap-3"><span className="text-accent-3">⚡</span> Відповідь за секунди, без очікування</li>
-          <li className="flex items-center gap-3"><span className="text-accent-3">💬</span> Ціна, строки та виїзд — одразу в чаті</li>
-          <li className="flex items-center gap-3"><span className="text-accent-3">🕑</span> На зв’язку цілодобово</li>
-        </ul>
-        <div className="flex flex-wrap gap-3">
-          <button onClick={openChat} className="btn btn-accent btn-lg">💬 Відкрити чат</button>
-          <CourierButton className="btn btn-ghost btn-lg" />
-        </div>
-      </div>
-
-      <div ref={rootRef} className="mx-auto w-full max-w-[400px]">
-        <div className="flex h-[440px] flex-col overflow-hidden rounded-2xl border border-graphite bg-void shadow-2xl">
-          {/* шапка */}
-          <div className="flex items-center gap-3 border-b border-graphite bg-gradient-to-r from-accent-3/10 to-accent-2/10 px-4 py-3.5">
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-grad font-medium text-[#0c0c0b]">О</span>
-            <div className="leading-tight">
-              <b className="text-[15px] font-medium">Олександра</b>
-              <div className="flex items-center gap-1.5 font-mono text-[11px] text-ash">
-                <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-accent-3" />
-                AI-консультант · онлайн
-              </div>
+    <div ref={rootRef} className="mx-auto w-full max-w-[400px] lg:ml-auto lg:mr-0">
+      <div className="flex h-[440px] flex-col overflow-hidden rounded-2xl border border-graphite bg-void/90 shadow-2xl backdrop-blur">
+        {/* шапка */}
+        <div className="flex items-center gap-3 border-b border-graphite bg-gradient-to-r from-accent-3/10 to-accent-2/10 px-4 py-3.5">
+          <span className="grid h-9 w-9 place-items-center rounded-full bg-grad font-medium text-[#0c0c0b]">О</span>
+          <div className="leading-tight">
+            <b className="text-[15px] font-medium">Олександра</b>
+            <div className="flex items-center gap-1.5 font-mono text-[11px] text-ash">
+              <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-accent-3" />
+              AI-консультант · онлайн
             </div>
           </div>
+        </div>
 
-          {/* стрічка */}
-          <div ref={bodyRef} className="flex flex-1 flex-col gap-2.5 overflow-y-auto p-4">
-            <Bubble role="assistant">
-              Вітаю! 👋 Я Олександра, консультант MobiDoctor. Що сталося з вашим телефоном?
+        {/* стрічка */}
+        <div ref={bodyRef} className="flex flex-1 flex-col gap-2.5 overflow-y-auto p-4">
+          <Bubble role="assistant">
+            Вітаю! 👋 Я Олександра, консультант MobiDoctor. Що сталося з вашим телефоном?
+          </Bubble>
+          {msgs.map((m, i) => (
+            <Bubble key={i} role={m.role}>
+              {m.text}
             </Bubble>
-            {msgs.map((m, i) => (
-              <Bubble key={i} role={m.role}>
-                {m.text}
-              </Bubble>
-            ))}
-            {typing && (
-              <div className="flex items-center gap-1 self-start rounded-2xl rounded-bl-sm border border-graphite bg-charcoal px-4 py-3.5">
-                {[0, 0.15, 0.3].map((d) => (
-                  <span
-                    key={d}
-                    className="inline-block h-1.5 w-1.5 rounded-full bg-ash"
-                    style={{ animation: `typingDot 1.1s ease-in-out ${d}s infinite` }}
-                  />
-                ))}
-              </div>
+          ))}
+          {typing && (
+            <div className="flex items-center gap-1 self-start rounded-2xl rounded-bl-sm border border-graphite bg-charcoal px-4 py-3.5">
+              {[0, 0.15, 0.3].map((d) => (
+                <span
+                  key={d}
+                  className="inline-block h-1.5 w-1.5 rounded-full bg-ash"
+                  style={{ animation: `typingDot 1.1s ease-in-out ${d}s infinite` }}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* поле вводу (анімований набір) */}
+        <div className="flex items-center gap-2 border-t border-graphite p-3">
+          <div className="flex h-11 flex-1 items-center rounded-full border border-graphite bg-void px-4 text-sm text-white">
+            {input ? (
+              <>
+                <span>{input}</span>
+                <span className="ml-0.5 inline-block h-4 w-px bg-accent-3" style={{ animation: 'caretBlink 1s step-end infinite' }} />
+              </>
+            ) : (
+              <span className="text-ash">Напишіть повідомлення…</span>
             )}
           </div>
-
-          {/* поле вводу (анімований набір) */}
-          <div className="flex items-center gap-2 border-t border-graphite p-3">
-            <div className="flex h-11 flex-1 items-center rounded-full border border-graphite bg-void px-4 text-sm text-white">
-              {input ? (
-                <>
-                  <span>{input}</span>
-                  <span className="ml-0.5 inline-block h-4 w-px bg-accent-3" style={{ animation: 'caretBlink 1s step-end infinite' }} />
-                </>
-              ) : (
-                <span className="text-ash">Напишіть повідомлення…</span>
-              )}
-            </div>
-            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-grad text-[#0c0c0b]">➤</span>
-          </div>
+          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-grad text-[#0c0c0b]">➤</span>
         </div>
       </div>
     </div>
