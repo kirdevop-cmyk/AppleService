@@ -31,6 +31,12 @@ export default function Page() {
             <h2 className="mb-5 text-2xl font-medium tracking-tight">MobiDoctor — виїзний ремонт у Харкові</h2>
             <ul className="mb-7 space-y-3 text-[15px]">
               <li><span className="mr-3 font-mono text-xs uppercase text-ash">Телефон</span><a href={`tel:${site.phone}`} className="grad-text">{site.phoneDisplay}</a></li>
+              {site.telegram && (
+                <li>
+                  <span className="mr-3 font-mono text-xs uppercase text-ash">Telegram</span>
+                  <a href={site.telegram} target="_blank" rel="noopener noreferrer" className="grad-text">{site.telegramHandle}</a>
+                </li>
+              )}
               <li><span className="mr-3 font-mono text-xs uppercase text-ash">Місто</span>{site.city} — виїзд кур’єра по всьому місту</li>
               <li><span className="mr-3 font-mono text-xs uppercase text-ash">Графік</span>{site.hours}</li>
             </ul>

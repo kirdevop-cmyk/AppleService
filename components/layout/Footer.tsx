@@ -13,6 +13,14 @@ export function Footer() {
           <p className="mt-3 max-w-xs text-sm text-ash">
             Виїзний ремонт смартфонів у Харкові: iPhone, Samsung, Xiaomi, Poco та інші. Кур’єр забере й привезе телефон. Гарантія до 12 місяців.
           </p>
+          <div className="mt-4 flex flex-col gap-1.5 text-sm">
+            <a href={`tel:${site.phone}`} className="text-white/80 hover:text-accent-3">☎ {site.phoneDisplay}</a>
+            {site.telegram && (
+              <a href={site.telegram} target="_blank" rel="noopener noreferrer" className="text-white/80 hover:text-accent-3">
+                ✈️ Telegram: {site.telegramHandle}
+              </a>
+            )}
+          </div>
         </div>
         <FooterCol
           title="Бренди"
