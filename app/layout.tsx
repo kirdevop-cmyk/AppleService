@@ -7,6 +7,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { SiteWidgets } from '@/components/forms/SiteWidgets';
 import { RevealController } from '@/components/ui/RevealController';
+import { SiteBackdrop } from '@/components/ui/SiteBackdrop';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { localBusinessSchema } from '@/lib/schema';
 
@@ -46,6 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </noscript>
         )}
         <JsonLd data={localBusinessSchema()} />
+        <SiteBackdrop />
         <Header />
         <main className="pb-16 sm:pb-0">{children}</main>
         <Footer />
