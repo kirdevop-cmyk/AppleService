@@ -2,8 +2,11 @@ import Anthropic from '@anthropic-ai/sdk';
 import { getKnowledgeBaseText } from '@/lib/knowledge-base';
 import { sendLeadNotification } from '@/lib/notifications';
 import { rateLimit } from '@/lib/ratelimit';
+import { ruleReply } from '@/lib/assistant';
 
 export const runtime = 'nodejs';
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 // Модель легко змінити тут (ТЗ: швидка й дешева для чат-консультанта).
 const MODEL = 'claude-sonnet-4-6';
@@ -52,9 +55,6 @@ const FAIL = 'Вибачте, стався збій зв’язку. Зател�
 
 export async function POST(req: Request) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) {
-    return new Response('ANTHROPIC_API_KEY is not configured', { status: 500 });
-  }
 
   if (!rateLimit(clientIp(req)).ok) {
     return new Response('Забагато повідомлень. Зробіть невелику паузу або зателефонуйте 073 666 18 36.', {
@@ -79,57 +79,73 @@ export async function POST(req: Request) {
   while (messages.length && messages[0].role !== 'user') messages.shift();
   if (messages.length === 0) return new Response('empty conversation', { status: 400 });
 
-  const client = new Anthropic({ apiKey });
   const encoder = new TextEncoder();
 
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
+      const send = (s: string) => controller.enqueue(encoder.encode(s));
       let leadSaved = false;
+      let telegram = false;
+
       try {
-        for (let i = 0; i < 4; i++) {
-          const turn = client.messages.stream({
-            model: MODEL,
-            max_tokens: MAX_TOKENS,
-            system: [{ type: 'text', text: SYSTEM, cache_control: { type: 'ephemeral' } }],
-            tools: TOOLS,
-            messages,
-          });
-
-          turn.on('text', (delta) => controller.enqueue(encoder.encode(delta)));
-          const msg = await turn.finalMessage();
-
-          if (msg.stop_reason === 'tool_use') {
-            messages.push({ role: 'assistant', content: msg.content as unknown as Anthropic.ContentBlockParam[] });
-            const results: Anthropic.ToolResultBlockParam[] = [];
-            for (const block of msg.content) {
-              if (block.type === 'tool_use' && block.name === 'save_lead') {
-                const input = (block.input ?? {}) as Record<string, string>;
-                const ok = await sendLeadNotification({
-                  name: input.name,
-                  phone: input.phone,
-                  device: input.device,
-                  issue: input.problem,
-                });
-                if (ok) leadSaved = true;
-                results.push({
-                  type: 'tool_result',
-                  tool_use_id: block.id,
-                  content: ok
-                    ? 'Заявку успішно передано менеджеру.'
-                    : 'Не вдалося передати — попроси клієнта зателефонувати 073 666 18 36.',
-                });
-              }
-            }
-            messages.push({ role: 'user', content: results });
-            continue; // наступний хід догенерує подяку (стрімом)
+        if (!apiKey) {
+          // Безключовий режим: «жива» скриптова Олександра з бази знань.
+          const lastUser = [...messages].reverse().find((m) => m.role === 'user');
+          const text = typeof lastUser?.content === 'string' ? lastUser.content : '';
+          const r = ruleReply(text);
+          telegram = r.telegram;
+          // стрімимо по словах — щоб виглядало як живий набір
+          for (const w of r.reply.split(/(\s+)/)) {
+            send(w);
+            if (w.trim()) await sleep(24);
           }
+        } else {
+          const client = new Anthropic({ apiKey });
+          for (let i = 0; i < 4; i++) {
+            const turn = client.messages.stream({
+              model: MODEL,
+              max_tokens: MAX_TOKENS,
+              system: [{ type: 'text', text: SYSTEM, cache_control: { type: 'ephemeral' } }],
+              tools: TOOLS,
+              messages,
+            });
 
-          break; // end_turn / max_tokens — відповідь уже відправлена стрімом
+            turn.on('text', (delta) => send(delta));
+            const msg = await turn.finalMessage();
+
+            if (msg.stop_reason === 'tool_use') {
+              messages.push({ role: 'assistant', content: msg.content as unknown as Anthropic.ContentBlockParam[] });
+              const results: Anthropic.ToolResultBlockParam[] = [];
+              for (const block of msg.content) {
+                if (block.type === 'tool_use' && block.name === 'save_lead') {
+                  const input = (block.input ?? {}) as Record<string, string>;
+                  const ok = await sendLeadNotification({
+                    name: input.name,
+                    phone: input.phone,
+                    device: input.device,
+                    issue: input.problem,
+                  });
+                  if (ok) leadSaved = true;
+                  results.push({
+                    type: 'tool_result',
+                    tool_use_id: block.id,
+                    content: ok
+                      ? 'Заявку успішно передано менеджеру.'
+                      : 'Не вдалося передати — попроси клієнта зателефонувати 073 666 18 36.',
+                  });
+                }
+              }
+              messages.push({ role: 'user', content: results });
+              continue;
+            }
+
+            break;
+          }
         }
       } catch {
-        controller.enqueue(encoder.encode(FAIL));
+        send(FAIL);
       } finally {
-        controller.enqueue(encoder.encode(META + JSON.stringify({ leadSaved })));
+        send(META + JSON.stringify({ leadSaved, telegram }));
         controller.close();
       }
     },

@@ -90,6 +90,7 @@ function ChatPanel({ onClose }: { onClose: () => void }) {
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
   const [showQuick, setShowQuick] = useState(true);
+  const [showTg, setShowTg] = useState(false);
   const bodyRef = useRef<HTMLDivElement>(null);
   const debug = typeof window !== 'undefined' && /[?&]debug=1/.test(window.location.search);
 
@@ -100,6 +101,7 @@ function ChatPanel({ onClose }: { onClose: () => void }) {
   async function send(text: string) {
     if (busy || !text.trim()) return;
     setShowQuick(false);
+    setShowTg(false);
     const next = [...msgs, { role: 'user' as const, content: text }];
     // одразу додаємо порожнє повідомлення асистента — в нього стрімимо відповідь
     setMsgs([...next, { role: 'assistant', content: '' }]);
@@ -135,6 +137,7 @@ function ChatPanel({ onClose }: { onClose: () => void }) {
       let buf = '';
       let visible = '';
       let leadSaved = false;
+      let telegram = false;
       for (;;) {
         const { value, done } = await reader.read();
         if (value) {
@@ -145,7 +148,9 @@ function ChatPanel({ onClose }: { onClose: () => void }) {
           } else {
             visible = buf.slice(0, sep);
             try {
-              leadSaved = !!JSON.parse(buf.slice(sep + 1)).leadSaved;
+              const meta = JSON.parse(buf.slice(sep + 1));
+              leadSaved = !!meta.leadSaved;
+              telegram = !!meta.telegram;
             } catch {
               /* метадан ще не дочитано */
             }
@@ -156,6 +161,7 @@ function ChatPanel({ onClose }: { onClose: () => void }) {
       }
 
       if (!visible.trim()) setLast(failMsg());
+      if (telegram && site.telegram) setShowTg(true);
       if (leadSaved) {
         const w = window as unknown as { dataLayer?: unknown[] };
         w.dataLayer = w.dataLayer || [];
@@ -204,6 +210,21 @@ function ChatPanel({ onClose }: { onClose: () => void }) {
               />
             ))}
           </div>
+        )}
+        {showTg && site.telegram && (
+          <a
+            href={site.telegram}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => {
+              const w = window as unknown as { dataLayer?: unknown[] };
+              w.dataLayer = w.dataLayer || [];
+              w.dataLayer.push({ event: 'generate_lead', method: 'telegram' });
+            }}
+            className="btn btn-accent self-start text-sm"
+          >
+            ✈️ Написати в Telegram
+          </a>
         )}
       </div>
 
