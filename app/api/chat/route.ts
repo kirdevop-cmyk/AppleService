@@ -101,6 +101,9 @@ export async function POST(req: Request) {
           }
         } else {
           const client = new Anthropic({ apiKey });
+          const lastUserText = [...messages].reverse().find(
+            (m) => m.role === 'user' && typeof m.content === 'string',
+          )?.content as string | undefined;
           for (let i = 0; i < 4; i++) {
             const turn = client.messages.stream({
               model: MODEL,
@@ -141,6 +144,8 @@ export async function POST(req: Request) {
 
             break;
           }
+          // На етапі ціни/замовлення (і коли лід ще не оформлено) — підказати Telegram
+          if (!leadSaved && lastUserText && ruleReply(lastUserText).telegram) telegram = true;
         }
       } catch {
         send(FAIL);
