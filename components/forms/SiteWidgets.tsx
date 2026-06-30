@@ -101,29 +101,68 @@ function ChatPanel({ onClose }: { onClose: () => void }) {
     if (busy || !text.trim()) return;
     setShowQuick(false);
     const next = [...msgs, { role: 'user' as const, content: text }];
-    setMsgs(next);
+    // одразу додаємо порожнє повідомлення асистента — в нього стрімимо відповідь
+    setMsgs([...next, { role: 'assistant', content: '' }]);
     setInput('');
     setBusy(true);
+
+    const setLast = (content: string) =>
+      setMsgs((m) => {
+        const copy = m.slice();
+        for (let i = copy.length - 1; i >= 0; i--) {
+          if (copy[i].role === 'assistant') {
+            copy[i] = { role: 'assistant', content };
+            break;
+          }
+        }
+        return copy;
+      });
+
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: next }),
       });
-      const data = await res.json().catch(() => ({}));
-      if (res.ok && data.reply) {
-        setMsgs((m) => [...m, { role: 'assistant', content: data.reply }]);
-        if (data.leadSaved) {
-          const w = window as unknown as { dataLayer?: unknown[] };
-          w.dataLayer = w.dataLayer || [];
-          w.dataLayer.push({ event: 'generate_lead', method: 'chat' });
+      if (!res.ok || !res.body) {
+        const errText = await res.text().catch(() => '');
+        setLast(res.status === 429 ? errText || failMsg() : failMsg() + (debug ? `\n\n[debug ${res.status}: ${errText}]` : ''));
+        return;
+      }
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buf = '';
+      let visible = '';
+      let leadSaved = false;
+      for (;;) {
+        const { value, done } = await reader.read();
+        if (value) {
+          buf += decoder.decode(value, { stream: true });
+          const sep = buf.indexOf(''); // роздільник тексту й метадану
+          if (sep === -1) {
+            visible = buf;
+          } else {
+            visible = buf.slice(0, sep);
+            try {
+              leadSaved = !!JSON.parse(buf.slice(sep + 1)).leadSaved;
+            } catch {
+              /* метадан ще не дочитано */
+            }
+          }
+          setLast(visible);
         }
-      } else {
-        const dbg = debug ? `\n\n[debug: ${data.error || 'no reply'}${data.detail ? ' / ' + JSON.stringify(data.detail) : ''}]` : '';
-        setMsgs((m) => [...m, { role: 'assistant', content: failMsg() + dbg }]);
+        if (done) break;
+      }
+
+      if (!visible.trim()) setLast(failMsg());
+      if (leadSaved) {
+        const w = window as unknown as { dataLayer?: unknown[] };
+        w.dataLayer = w.dataLayer || [];
+        w.dataLayer.push({ event: 'generate_lead', method: 'chat' });
       }
     } catch {
-      setMsgs((m) => [...m, { role: 'assistant', content: failMsg() }]);
+      setLast(failMsg());
     } finally {
       setBusy(false);
     }
@@ -148,13 +187,23 @@ function ChatPanel({ onClose }: { onClose: () => void }) {
         <Bubble role="assistant">
           Вітаю! 👋 Я Олександра, консультант MobiDoctor. Що сталося з вашим телефоном? Підкажу ціну, строки та оформлю безкоштовний виїзд кур’єра по Харкову.
         </Bubble>
-        {msgs.map((m, i) => (
-          <Bubble key={i} role={m.role}>
-            {m.content}
-          </Bubble>
-        ))}
-        {busy && (
-          <div className="self-start rounded-2xl rounded-bl-sm border border-graphite bg-charcoal px-4 py-3 text-ash">…</div>
+        {msgs.map((m, i) =>
+          m.content ? (
+            <Bubble key={i} role={m.role}>
+              {m.content}
+            </Bubble>
+          ) : null,
+        )}
+        {busy && msgs.length > 0 && msgs[msgs.length - 1].role === 'assistant' && !msgs[msgs.length - 1].content && (
+          <div className="flex items-center gap-1 self-start rounded-2xl rounded-bl-sm border border-graphite bg-charcoal px-4 py-3.5">
+            {[0, 0.15, 0.3].map((d) => (
+              <span
+                key={d}
+                className="inline-block h-1.5 w-1.5 rounded-full bg-ash"
+                style={{ animation: `typingDot 1.1s ease-in-out ${d}s infinite` }}
+              />
+            ))}
+          </div>
         )}
       </div>
 
