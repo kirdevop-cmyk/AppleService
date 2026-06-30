@@ -69,7 +69,7 @@ export function TrustBadges() {
     ['12 міс', 'гарантія до'],
   ];
   return (
-    <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-graphite lg:grid-cols-4">
+    <div className="badges-stagger grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-graphite lg:grid-cols-4">
       {items.map(([b, s], i) => (
         <div key={i} className="bg-void p-6 text-center">
           <b className="block text-3xl font-medium grad-text">{b}</b>
@@ -82,7 +82,7 @@ export function TrustBadges() {
 
 export function PriceTable({ overrides }: { overrides?: Partial<Record<ServiceSlug, number>> }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-graphite">
+    <div className="price-rows overflow-hidden rounded-2xl border border-graphite">
       <div className="grid grid-cols-[2fr_1fr_1fr] gap-2 bg-white/[0.04] px-6 py-4 font-mono text-xs uppercase tracking-wider text-ash">
         <span>Послуга</span>
         <span>Час</span>
@@ -124,7 +124,7 @@ export function Faq({ items }: { items: FaqItem[] }) {
 
 export function CtaBanner({ title }: { title: string }) {
   return (
-    <div className="my-10 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-graphite bg-gradient-to-r from-accent-3/10 to-accent-2/10 p-7">
+    <div className="cta-glow my-10 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-graphite bg-gradient-to-r from-accent-3/10 to-accent-2/10 p-7">
       <b className="text-xl font-medium">{title}</b>
       <div className="flex flex-wrap gap-3">
         <CourierButton className="btn btn-accent" />

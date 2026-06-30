@@ -8,6 +8,7 @@ import { Footer } from '@/components/layout/Footer';
 import { SiteWidgets } from '@/components/forms/SiteWidgets';
 import { RevealController } from '@/components/ui/RevealController';
 import { SiteBackdrop } from '@/components/ui/SiteBackdrop';
+import { ScrollProgressBar } from '@/components/ui/ScrollProgressBar';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { localBusinessSchema } from '@/lib/schema';
 
@@ -48,6 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         )}
         <JsonLd data={localBusinessSchema()} />
         <SiteBackdrop />
+        <ScrollProgressBar />
         <Header />
         <main className="pb-16 sm:pb-0">{children}</main>
         <Footer />
