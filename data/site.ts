@@ -6,7 +6,7 @@ export const site = {
   hours: 'Щодня 09:00 – 21:00',
   city: 'Харків',
   areaServed: 'Харків',
-  telegram: '', // напр. https://t.me/...
+  telegram: process.env.NEXT_PUBLIC_TELEGRAM_URL || 'https://t.me/Applekh_servicebot', // чат із менеджером
   viber: '',
   email: '', // напр. info@mobidoctor.com.ua
   legalName: 'ФОП [вкажіть ПІБ]',
