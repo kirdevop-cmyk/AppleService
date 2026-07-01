@@ -26,17 +26,17 @@ export function BrandHubView({ brandSlug }: { brandSlug: BrandSlug }) {
   const list = modelsByBrand(brandSlug);
   const crumbs = [
     { name: 'Головна', path: '/' },
-    { name: `Ремонт ${brand.name}`, path: brand.hubPath },
+    { name: `Обслуговування ${brand.name}`, path: brand.hubPath },
   ];
 
   return (
     <>
-      <JsonLd data={[serviceSchema(`Ремонт ${brand.name}`, brand.hubPath), breadcrumbSchema(crumbs), faqSchema(brandFaq)]} />
+      <JsonLd data={[serviceSchema(`Обслуговування ${brand.name}`, brand.hubPath), breadcrumbSchema(crumbs), faqSchema(brandFaq)]} />
       <section className="pt-16">
         <div className="container-x py-12">
-          <Breadcrumbs items={[{ name: 'Головна', href: '/' }, { name: `Ремонт ${brand.name}` }]} />
+          <Breadcrumbs items={[{ name: 'Головна', href: '/' }, { name: `Обслуговування ${brand.name}` }]} />
           <h1 className="animate-fade-up mb-4 max-w-3xl text-3xl font-medium leading-tight tracking-tight sm:text-4xl">
-            Ремонт {brand.name} у Харкові з виїздом кур’єра
+            Обслуговування {brand.name} у Харкові з виїздом кур’єра
           </h1>
           <div className="mb-7"><PageActions /></div>
         </div>
@@ -49,7 +49,7 @@ export function BrandHubView({ brandSlug }: { brandSlug: BrandSlug }) {
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {list.map((m) => (
               <Link key={m.slug} href={`${brand.hubPath}/${m.slug}`} className="card flex items-center justify-between">
-                <span className="text-[15px] text-white">Ремонт {m.name}</span>
+                <span className="text-[15px] text-white">Обслуговування {m.name}</span>
                 <span className="text-accent-3">→</span>
               </Link>
             ))}
@@ -63,7 +63,7 @@ export function BrandHubView({ brandSlug }: { brandSlug: BrandSlug }) {
 
       <Section>
         <Eyebrow>Послуги</Eyebrow>
-        <h2 className="mb-6 text-2xl font-medium tracking-tight">Що ремонтуємо у {brand.name}</h2>
+        <h2 className="mb-6 text-2xl font-medium tracking-tight">Що обслуговуємо у {brand.name}</h2>
         <ServiceCards />
       </Section>
 
@@ -92,7 +92,7 @@ export function ModelView({ brandSlug, modelSlug }: { brandSlug: BrandSlug; mode
   const path = `${brand.hubPath}/${model.slug}`;
   const crumbs = [
     { name: 'Головна', path: '/' },
-    { name: `Ремонт ${brand.name}`, path: brand.hubPath },
+    { name: `Обслуговування ${brand.name}`, path: brand.hubPath },
     { name: model.name, path },
   ];
   const minPrice =
@@ -103,7 +103,7 @@ export function ModelView({ brandSlug, modelSlug }: { brandSlug: BrandSlug; mode
     .slice(0, 4);
 
   const modelFaq = [
-    { q: `Скільки коштує ремонт ${model.name}?`, a: `Залежить від поломки та обраної деталі (оригінал чи копія). Точну ціну називаємо після безкоштовної діагностики. Орієнтовно — від ${minPrice} ₴.` },
+    { q: `Скільки коштує обслуговування ${model.name}?`, a: `Залежить від поломки та обраної деталі (оригінал чи копія). Точну ціну називаємо після безкоштовної діагностики. Орієнтовно — від ${minPrice} ₴.` },
     ...brandFaq,
   ];
 
@@ -112,9 +112,9 @@ export function ModelView({ brandSlug, modelSlug }: { brandSlug: BrandSlug; mode
       <JsonLd data={[productRepairSchema(model.name, path, minPrice), breadcrumbSchema(crumbs), faqSchema(modelFaq)]} />
       <section className="pt-16">
         <div className="container-x py-12">
-          <Breadcrumbs items={[{ name: 'Головна', href: '/' }, { name: `Ремонт ${brand.name}`, href: brand.hubPath }, { name: model.name }]} />
+          <Breadcrumbs items={[{ name: 'Головна', href: '/' }, { name: `Обслуговування ${brand.name}`, href: brand.hubPath }, { name: model.name }]} />
           <h1 className="animate-fade-up mb-4 max-w-3xl text-3xl font-medium leading-tight tracking-tight sm:text-4xl">
-            Ремонт {model.name} у Харкові з виїздом кур’єра
+            Обслуговування {model.name} у Харкові з виїздом кур’єра
           </h1>
           <p className="mb-7 max-w-2xl text-lg text-ash">{model.intro}</p>
           <PageActions />
@@ -134,7 +134,7 @@ export function ModelView({ brandSlug, modelSlug }: { brandSlug: BrandSlug; mode
       </Section>
 
       <Section alt>
-        <Eyebrow>Ціни на ремонт {model.name}</Eyebrow>
+        <Eyebrow>Ціни на обслуговування {model.name}</Eyebrow>
         <h2 className="mb-6 text-2xl font-medium tracking-tight">Орієнтовні ціни</h2>
         <PriceTable overrides={model.priceOverrides} />
         <p className="mt-4 text-sm text-ash">* Точну вартість узгоджуємо до робіт після безкоштовної діагностики. Деталі: оригінал або копія на вибір.</p>
@@ -142,13 +142,13 @@ export function ModelView({ brandSlug, modelSlug }: { brandSlug: BrandSlug; mode
 
       <Section>
         <Eyebrow>Як це працює</Eyebrow>
-        <h2 className="mb-6 text-2xl font-medium tracking-tight">Виїзний ремонт у 4 кроки</h2>
+        <h2 className="mb-6 text-2xl font-medium tracking-tight">Виїзне обслуговування у 4 кроки</h2>
         <HowItWorks />
       </Section>
 
       <Section alt>
         <div className="mx-auto max-w-3xl">
-          <h2 className="mb-6 text-2xl font-medium tracking-tight">Питання про ремонт {model.name}</h2>
+          <h2 className="mb-6 text-2xl font-medium tracking-tight">Питання про обслуговування {model.name}</h2>
           <Faq items={modelFaq} />
         </div>
       </Section>
@@ -163,7 +163,7 @@ export function ModelView({ brandSlug, modelSlug }: { brandSlug: BrandSlug; mode
               </Link>
             ))}
           </div>
-          <CtaBanner title={`Потрібен ремонт ${model.name}? Викличте кур’єра.`} />
+          <CtaBanner title={`Потрібне обслуговування ${model.name}? Викличте кур’єра.`} />
         </Section>
       )}
     </>
@@ -197,7 +197,7 @@ export function ServiceView({ slug }: { slug: string }) {
       </section>
       <Section>
         <div className="prose-x max-w-3xl" dangerouslySetInnerHTML={{ __html: service.body }} />
-        <div className="max-w-3xl"><CtaBanner title="Потрібен ремонт? Викличте кур’єра." /></div>
+        <div className="max-w-3xl"><CtaBanner title="Потрібне обслуговування? Викличте кур’єра." /></div>
       </Section>
       <Section alt>
         <div className="mx-auto max-w-3xl">
@@ -220,17 +220,17 @@ export function DistrictView({ slug }: { slug: string }) {
     { name: d.name, path },
   ];
   const faq = [
-    { q: `Кур’єр приїде ${d.prepositional}?`, a: `Так. Кур’єр MobiDoctor безкоштовно приїде ${d.prepositional}, забере телефон і привезе відремонтований.` },
-    { q: 'Скільки коштує виїзд?', a: 'Виїзд кур’єра по Харкову безкоштовний. Ви оплачуєте лише ремонт після узгодження ціни.' },
+    { q: `Кур’єр приїде ${d.prepositional}?`, a: `Так. Кур’єр MobiDoctor безкоштовно приїде ${d.prepositional}, забере телефон і привезе обслужений.` },
+    { q: 'Скільки коштує виїзд?', a: 'Виїзд кур’єра по Харкову безкоштовний. Ви оплачуєте лише обслуговування після узгодження ціни.' },
   ];
   return (
     <>
-      <JsonLd data={[serviceSchema(`Виїзний ремонт смартфонів ${d.prepositional}`, path), breadcrumbSchema(crumbs), faqSchema(faq)]} />
+      <JsonLd data={[serviceSchema(`Виїзне обслуговування смартфонів ${d.prepositional}`, path), breadcrumbSchema(crumbs), faqSchema(faq)]} />
       <section className="pt-16">
         <div className="container-x py-12">
           <Breadcrumbs items={[{ name: 'Головна', href: '/' }, { name: 'Виїзд по районах', href: '/vyizd-po-rayonah' }, { name: d.name }]} />
           <h1 className="animate-fade-up mb-4 max-w-3xl text-3xl font-medium leading-tight tracking-tight sm:text-4xl">
-            Виїзний ремонт смартфонів {d.prepositional} (Харків)
+            Виїзне обслуговування смартфонів {d.prepositional} (Харків)
           </h1>
           <p className="mb-7 max-w-2xl text-lg text-ash">{d.intro}</p>
           <PageActions />
@@ -244,7 +244,7 @@ export function DistrictView({ slug }: { slug: string }) {
       </Section>
       <Section alt>
         <Eyebrow>Послуги {d.prepositional}</Eyebrow>
-        <h2 className="mb-6 text-2xl font-medium tracking-tight">Що ремонтуємо</h2>
+        <h2 className="mb-6 text-2xl font-medium tracking-tight">Що обслуговуємо</h2>
         <ServiceCards />
       </Section>
       <Section>

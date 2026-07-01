@@ -1,4 +1,4 @@
-# MobiDoctor — виїзний ремонт смартфонів у Харкові
+# MobiDoctor — виїзне обслуговування смартфонів у Харкові
 
 Сайт на **Next.js 14 (App Router) + TypeScript + Tailwind**, повністю статична генерація (SSG) на Vercel. Бренд **MobiDoctor** — без чужих товарних знаків, під вимоги Google Ads.
 
