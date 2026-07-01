@@ -20,9 +20,9 @@ import { HeroBackdrop } from '@/components/ui/HeroBackdrop';
 import { ChatDemoCard } from '@/components/ui/ChatDemo';
 
 export const metadata: Metadata = buildMetadata({
-  title: 'Виїзний ремонт смартфонів у Харкові — кур’єр забере телефон | MobiDoctor',
+  title: 'Обслуговування смартфонів у Харкові — кур’єр забере телефон | MobiDoctor',
   description:
-    'MobiDoctor — виїзний ремонт смартфонів у Харкові. Кур’єр безкоштовно забере телефон, ми відремонтуємо й привеземо назад готовий. iPhone, Samsung, Xiaomi, Poco. Гарантія до 12 місяців. ☎ 073 666 18 36',
+    'MobiDoctor — обслуговування смартфонів у Харкові. Кур’єр безкоштовно забере телефон, ми обслужимо й привеземо назад готовий. iPhone, Samsung, Xiaomi, Poco. Гарантія до 12 місяців. ☎ 073 666 18 36',
   path: '/',
 });
 
@@ -39,10 +39,10 @@ export default function Home() {
               iPhone · Samsung · Xiaomi · Poco · виїзд по Харкову
             </span>
             <h1 className="animate-fade-up mb-5 text-4xl font-medium leading-[1.05] tracking-tight [animation-delay:0.08s] sm:text-5xl lg:text-6xl">
-              Виїзний ремонт <span className="grad-text">смартфонів</span> у Харкові
+              Обслуговування <span className="grad-text">смартфонів</span> у Харкові
             </h1>
             <p className="animate-fade-up mb-8 max-w-xl text-lg text-ash [animation-delay:0.16s]">
-              Не виходьте з дому. <strong className="text-white">Кур’єр забере ваш телефон, ми відремонтуємо й привеземо назад готовий.</strong>{' '}
+              Не виходьте з дому. <strong className="text-white">Кур’єр забере ваш телефон, ми обслужимо й привеземо назад готовий.</strong>{' '}
               Гарантія до 12 місяців, безкоштовна діагностика, чесна ціна.
             </p>
             <div className="animate-fade-up [animation-delay:0.24s]">
@@ -51,7 +51,7 @@ export default function Home() {
             <ul className="animate-fade-up mt-7 flex flex-wrap gap-x-6 gap-y-2 font-mono text-sm text-ash [animation-delay:0.32s]">
               <li>🚚 Виїзд по Харкову — безкоштовно</li>
               <li>🛡 Гарантія до 12 місяців</li>
-              <li>⚡ Ремонт від 30 хвилин</li>
+              <li>⚡ Обслуговування від 30 хвилин</li>
             </ul>
           </div>
           <div className="animate-fade-up [animation-delay:0.4s]">
@@ -61,19 +61,19 @@ export default function Home() {
       </section>
 
       <Section>
-        <Eyebrow>Які смартфони ремонтуємо</Eyebrow>
+        <Eyebrow>Які смартфони обслуговуємо</Eyebrow>
         <h2 className="mb-6 text-3xl font-medium tracking-tight">Оберіть свій бренд</h2>
         <BrandGrid />
       </Section>
 
       <Section alt>
         <Eyebrow>Послуги</Eyebrow>
-        <h2 className="mb-6 text-3xl font-medium tracking-tight">Що ми ремонтуємо</h2>
+        <h2 className="mb-6 text-3xl font-medium tracking-tight">Що ми обслуговуємо</h2>
         <ServiceCards />
       </Section>
 
       <Section>
-        <Eyebrow>Виїзний ремонт</Eyebrow>
+        <Eyebrow>Як це працює</Eyebrow>
         <h2 className="mb-6 text-3xl font-medium tracking-tight">Приїдемо, заберемо, привеземо готовий</h2>
         <HowItWorks />
       </Section>
@@ -84,7 +84,7 @@ export default function Home() {
 
       <Section>
         <Eyebrow>Орієнтовні ціни</Eyebrow>
-        <h2 className="mb-6 text-3xl font-medium tracking-tight">Скільки коштує ремонт</h2>
+        <h2 className="mb-6 text-3xl font-medium tracking-tight">Скільки коштує обслуговування</h2>
         <PriceTable />
         <p className="mt-4 text-sm text-ash">
           * Точну ціну називаємо після безкоштовної діагностики. <Link href="/tsiny" className="underline decoration-smoke">Усі ціни →</Link>

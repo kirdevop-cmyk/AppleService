@@ -9,7 +9,7 @@ export function localBusinessSchema() {
     '@type': 'LocalBusiness',
     name: site.name,
     description:
-      'Виїзний ремонт смартфонів у Харкові: iPhone, Samsung, Xiaomi, Poco та інші. Кур’єр забирає й привозить телефон. Гарантія до 12 місяців.',
+      'Виїзне обслуговування смартфонів у Харкові: iPhone, Samsung, Xiaomi, Poco та інші. Кур’єр забирає й привозить телефон. Гарантія до 12 місяців.',
     image: abs('/og-image.jpg'),
     '@id': abs('/'),
     url: abs('/'),
@@ -44,7 +44,7 @@ export function productRepairSchema(modelName: string, path: string, priceFrom?:
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    serviceType: `Ремонт ${modelName}`,
+    serviceType: `Обслуговування ${modelName}`,
     provider: { '@type': 'LocalBusiness', name: site.name, telephone: site.phone },
     areaServed: { '@type': 'City', name: site.areaServed },
     url: abs(path),

@@ -17,8 +17,8 @@ export async function generateMetadata({ params }: { params: Promise<{ model: st
   const m = modelBySlug(BRAND, model);
   if (!m) return {};
   return buildMetadata({
-    title: `Ремонт ${m.name} Харків — виїзд кур’єра, гарантія | MobiDoctor`,
-    description: `Ремонт ${m.name} у Харкові з виїздом кур’єра: ${m.commonIssues.slice(0, 3).join(', ').toLowerCase()}. Гарантія до 12 місяців. ☎ 073 666 18 36`,
+    title: `Обслуговування ${m.name} Харків — виїзд кур’єра, гарантія | MobiDoctor`,
+    description: `Обслуговування ${m.name} у Харкові з виїздом кур’єра: ${m.commonIssues.slice(0, 3).join(', ').toLowerCase()}. Гарантія до 12 місяців. ☎ 073 666 18 36`,
     path: `${brand.hubPath}/${m.slug}`,
   });
 }

@@ -7,7 +7,7 @@ import { openLeadModal } from '@/components/ui/CourierButton';
 
 type Msg = { role: 'user' | 'assistant'; content: string };
 
-const QUICK = ['Розбитий екран iPhone', 'Ремонт Samsung', 'Не тримає зарядку', 'Скільки коштує діагностика?'];
+const QUICK = ['Розбитий екран iPhone', 'Обслуговування Samsung', 'Не тримає зарядку', 'Скільки коштує діагностика?'];
 
 export function SiteWidgets() {
   const [modal, setModal] = useState(false);

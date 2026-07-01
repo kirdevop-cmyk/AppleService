@@ -14,8 +14,8 @@ export async function generateMetadata({ params }: { params: Promise<{ district:
   const d = districtBySlug(district);
   if (!d) return {};
   return buildMetadata({
-    title: `Ремонт смартфонів ${d.prepositional} — виклик кур’єра | MobiDoctor`,
-    description: `Виїзний ремонт смартфонів ${d.prepositional} (Харків): кур’єр безкоштовно забере й привезе телефон. Заміна екрана, акумулятора, після води. Гарантія до 12 місяців. ☎ 073 666 18 36`,
+    title: `Обслуговування смартфонів ${d.prepositional} — виклик кур’єра | MobiDoctor`,
+    description: `Виїзне обслуговування смартфонів ${d.prepositional} (Харків): кур’єр безкоштовно забере й привезе телефон. Заміна екрана, акумулятора, після води. Гарантія до 12 місяців. ☎ 073 666 18 36`,
     path: `/vyizd-po-rayonah/${d.slug}`,
   });
 }

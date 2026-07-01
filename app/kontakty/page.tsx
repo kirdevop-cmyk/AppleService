@@ -8,9 +8,9 @@ import { Section } from '@/components/blocks/Blocks';
 import { LeadForm } from '@/components/forms/LeadForm';
 
 export const metadata: Metadata = buildMetadata({
-  title: 'Контакти — MobiDoctor, виїзний ремонт смартфонів у Харкові',
+  title: 'Контакти — MobiDoctor, виїзне обслуговування смартфонів у Харкові',
   description:
-    'Контакти MobiDoctor: телефон 073 666 18 36, виїзний ремонт смартфонів по всьому Харкову, графік роботи щодня 09:00–21:00. Залиште заявку онлайн.',
+    'Контакти MobiDoctor: телефон 073 666 18 36, виїзне обслуговування смартфонів по всьому Харкову, графік роботи щодня 09:00–21:00. Залиште заявку онлайн.',
   path: '/kontakty',
 });
 
@@ -28,7 +28,7 @@ export default function Page() {
       <Section>
         <div className="grid gap-10 lg:grid-cols-2">
           <div>
-            <h2 className="mb-5 text-2xl font-medium tracking-tight">MobiDoctor — виїзний ремонт у Харкові</h2>
+            <h2 className="mb-5 text-2xl font-medium tracking-tight">MobiDoctor — виїзне обслуговування у Харкові</h2>
             <ul className="mb-7 space-y-3 text-[15px]">
               <li><span className="mr-3 font-mono text-xs uppercase text-ash">Телефон</span><a href={`tel:${site.phone}`} className="grad-text">{site.phoneDisplay}</a></li>
               {site.telegram && (
@@ -45,7 +45,7 @@ export default function Page() {
               <p>{site.legalName} · РНОКПП {site.edrpou}</p>
               <p className="text-[13px] text-smoke">{site.disclaimer}</p>
               <h3>Зона обслуговування</h3>
-              <p>Виконуємо виїзний ремонт у всіх районах Харкова. <a href="/vyizd-po-rayonah">Дивитись райони →</a></p>
+              <p>Виконуємо виїзне обслуговування у всіх районах Харкова. <a href="/vyizd-po-rayonah">Дивитись райони →</a></p>
             </div>
           </div>
           <div className="rounded-2xl border border-graphite p-7">

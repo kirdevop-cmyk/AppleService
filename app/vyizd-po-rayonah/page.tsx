@@ -8,9 +8,9 @@ import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { Section, Eyebrow, PageActions, CtaBanner } from '@/components/blocks/Blocks';
 
 export const metadata: Metadata = buildMetadata({
-  title: 'Виїзний ремонт телефонів по районах Харкова | MobiDoctor',
+  title: 'Виїзне обслуговування телефонів по районах Харкова | MobiDoctor',
   description:
-    'Виїзний ремонт смартфонів у всіх районах Харкова: Салтівка, Олексіївка, Центр, ХТЗ, Холодна Гора, Павлове Поле та інші. Кур’єр приїде безкоштовно. ☎ 073 666 18 36',
+    'Виїзне обслуговування смартфонів у всіх районах Харкова: Салтівка, Олексіївка, Центр, ХТЗ, Холодна Гора, Павлове Поле та інші. Кур’єр приїде безкоштовно. ☎ 073 666 18 36',
   path: '/vyizd-po-rayonah',
 });
 
@@ -22,10 +22,10 @@ export default function Page() {
         <div className="container-x py-12">
           <Breadcrumbs items={[{ name: 'Головна', href: '/' }, { name: 'Виїзд по районах' }]} />
           <h1 className="mb-4 max-w-3xl text-3xl font-medium leading-tight tracking-tight sm:text-4xl">
-            Виїзний ремонт телефонів по районах Харкова
+            Виїзне обслуговування телефонів по районах Харкова
           </h1>
           <p className="mb-7 max-w-2xl text-lg text-ash">
-            Кур’єр MobiDoctor безкоштовно приїде у будь-який район Харкова — забере телефон і привезе відремонтований. Оберіть свій район:
+            Кур’єр MobiDoctor безкоштовно приїде у будь-який район Харкова — забере телефон і привезе обслужений. Оберіть свій район:
           </p>
           <PageActions />
         </div>

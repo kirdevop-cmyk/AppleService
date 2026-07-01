@@ -11,7 +11,7 @@ export function Footer() {
             Mobi<span className="grad-text">Doctor</span>
           </span>
           <p className="mt-3 max-w-xs text-sm text-ash">
-            Виїзний ремонт смартфонів у Харкові: iPhone, Samsung, Xiaomi, Poco та інші. Кур’єр забере й привезе телефон. Гарантія до 12 місяців.
+            Виїзне обслуговування смартфонів у Харкові: iPhone, Samsung, Xiaomi, Poco та інші. Кур’єр забере й привезе телефон. Гарантія до 12 місяців.
           </p>
           <div className="mt-4 flex flex-col gap-1.5 text-sm">
             <a href={`tel:${site.phone}`} className="text-white/80 hover:text-accent-3">☎ {site.phoneDisplay}</a>
@@ -25,9 +25,9 @@ export function Footer() {
         <FooterCol
           title="Бренди"
           links={[
-            ['/remont-iphone-kharkiv', 'Ремонт iPhone'],
-            ['/remont-samsung-kharkiv', 'Ремонт Samsung'],
-            ['/remont-xiaomi-kharkiv', 'Ремонт Xiaomi / Poco'],
+            ['/remont-iphone-kharkiv', 'Обслуговування iPhone'],
+            ['/remont-samsung-kharkiv', 'Обслуговування Samsung'],
+            ['/remont-xiaomi-kharkiv', 'Обслуговування Xiaomi / Poco'],
             ['/remont-realme-oneplus', 'Realme, OnePlus та інші'],
           ]}
         />
@@ -36,8 +36,8 @@ export function Footer() {
           links={[
             ['/poslugy/zamina-ekrana', 'Заміна екрана'],
             ['/poslugy/zamina-akumulyatora', 'Заміна акумулятора'],
-            ['/poslugy/pislya-vody', 'Ремонт після води'],
-            ['/poslugy/remont-platy', 'Ремонт плати'],
+            ['/poslugy/pislya-vody', 'Обслуговування після води'],
+            ['/poslugy/remont-platy', 'Обслуговування плати'],
           ]}
         />
         <FooterCol
@@ -54,7 +54,7 @@ export function Footer() {
         />
       </div>
       <div className="container-x border-t border-graphite py-6 font-mono text-xs text-ash">
-        © {year} {site.name} · Виїзний ремонт смартфонів у Харкові · ☎ {site.phoneDisplay}
+        © {year} {site.name} · Виїзне обслуговування смартфонів у Харкові · ☎ {site.phoneDisplay}
         <br />
         {site.disclaimer}
       </div>

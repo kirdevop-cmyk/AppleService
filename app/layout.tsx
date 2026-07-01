@@ -19,7 +19,7 @@ const GTM = process.env.NEXT_PUBLIC_GTM_ID;
 export const metadata: Metadata = {
   metadataBase: new URL(site.domain),
   title: {
-    default: 'MobiDoctor — виїзний ремонт смартфонів у Харкові',
+    default: 'MobiDoctor — виїзне обслуговування смартфонів у Харкові',
     template: '%s',
   },
   description: site.positioning,
